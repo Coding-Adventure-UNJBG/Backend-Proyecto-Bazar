@@ -6,3 +6,4 @@
 - npm install mysql2
 - npm install nodemon
 - npm i dotenv
+- npm i morgan
