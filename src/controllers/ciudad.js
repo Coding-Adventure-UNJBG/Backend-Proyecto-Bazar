@@ -2,10 +2,12 @@ const controllers= {};
 import sequelize from '../config/db.js';
 
 controllers.mostrarTodo = async (req, res) => {
-    const posts = await sequelize.query('SELECT * FROM country', { raw: true });
     console.log(req.query);
     console.log(req.params);
-    res.json(posts);
+    //console.log(await sequelize.query('SELECT * FROM payment', { raw: true }));
+    await sequelize.query('SELECT * FROM payment', { raw: true })
+    .then((response) => {res.json(response)})
+    .catch((err) => {res.status(404).send(err)});
 }
 
 export default controllers;

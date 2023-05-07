@@ -12,4 +12,10 @@ const sequelize = new Sequelize(process.env.DB_NAME, process.env.DB_USER, proces
     dialect: process.env.DB_DIALECT,
 });
 
+sequelize.authenticate().then(() => {
+    console.log('Conexion a DB exitosa');
+    }).catch((error) => {
+    console.error('No se puede conectar a la base de datos: ', error);
+});
+
 export default sequelize;
