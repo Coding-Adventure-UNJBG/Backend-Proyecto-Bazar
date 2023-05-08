@@ -3,8 +3,14 @@ const router = new Router();
 
 import controllers from '../controllers/ciudad.js';
 
+router.route('/ciudad/:codigo')
+.get( controllers.buscarId )
+.patch( controllers.update );
+
 router.route("/ciudad") // route es la abrevitura de get, post, delete  y put
-.get(controllers.mostrarTodo);
+.get( controllers.mostrarTodo )
+.post( controllers.insertar )
+.patch( controllers.updateQuery );
 /*
 .post("algo")
 .put("algo")

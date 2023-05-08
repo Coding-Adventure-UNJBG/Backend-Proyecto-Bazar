@@ -6,6 +6,7 @@ dotenv.config();
 
 const app = express();
 app.use(morgan("dev")); // para analizar las solicitudes HTTP y verlas en la consola
+app.use(express.json()); // para poder usar red.body
 
 
 // rutas de la API

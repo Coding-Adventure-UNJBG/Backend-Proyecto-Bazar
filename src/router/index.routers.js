@@ -7,7 +7,7 @@ const app = express();
 
 // middleware inicial
 app.use("/", (req, res, next) => {
-    console.log("test middleware");
+    console.log(`Test middleware: method=${req.method} - url=${req.originalUrl}`);
     next();
 });
 
@@ -18,5 +18,10 @@ app.get("/", (req, res) => {
 // importanto rutas
 app.use("/api/v1", ciudad);
 app.use("/api/v1", pruebas);
+
+// respuesta por defecto para todas las rutas no especificadas
+app.use("*", (req, res) => {
+    res.status(404).send({message: "recurso no encontrado!!!"});
+})
 
 export default app;
