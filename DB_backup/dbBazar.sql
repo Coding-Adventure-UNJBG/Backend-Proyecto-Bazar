@@ -67,15 +67,56 @@ CREATE TABLE `detalle_rol`(
 DROP TABLE IF EXISTS `proveedor`;
 
 CREATE TABLE `proveedor`(
-  `id_rol` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `id_proveedor` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(32) NOT NULL,
   `ruc` VARCHAR(32) NULL,
   `razon_social` TINYTEXT NOT NULL,
-  `permiso_defecto` JSON NOT NULL,
+  `direccion` TINYTEXT NOT NULL,
+  `estado` enum('activado','desactivado') NOT NULL DEFAULT 'desactivado',
+  `fecha_registro` DATETIME NOT NULL DEFAULT current_timestamp(),
   `comentario` TINYTEXT DEFAULT '',
   PRIMARY KEY (`id_rol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+/*Table structure for table `compra` */
+DROP TABLE IF EXISTS `proveedor`;
+
+CREATE TABLE `proveedor`(
+  `id_compra` INTEGER  AUTO_INCREMENT,
+  `id_proveedor` SMALLINT NULL,
+  `numero_comprobante` VARCHAR(16) NOT NULL,
+  `descripcion` TEXT NULL,
+  `importe_total` numeric(9,4) NOT NULL,
+  `costo_flete` numeric(9,4) NOT NULL,
+  `comision_banco` numeric(9,4) NOT NULL,
+  `fecha` DATETIME NOT NULL DEFAULT current_timestamp(),
+  `comentario` TINYTEXT DEFAULT '',
+  PRIMARY KEY (`id_compra`),
+  FOREIGN key (`id_proveedor`) REFERENCES `proveedor`(`id_proveedor`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Table structure for table `producto` */
+DROP TABLE IF EXISTS `proveedor`;
+
+CREATE TABLE `producto`(
+  `id_producto` INTEGER  AUTO_INCREMENT,
+  `nombre` VARCHAR(32) NOT NULL,
+  `medida` VARCHAR(32) NOT NULL,
+  `marca` VARCHAR(32) NOT NULL,
+  `estado` enum('activado','desactivado') NOT NULL DEFAULT 'desactivado',
+  `descripcion` TEXT NULL,
+  `importe_total` numeric(9,4) NOT NULL,
+  `costo_flete` numeric(9,4) NOT NULL,
+  `comision_banco` numeric(9,4) NOT NULL,
+  `fecha` DATETIME NOT NULL DEFAULT current_timestamp(),
+  `comentario` TINYTEXT DEFAULT '',
+  PRIMARY KEY (`id_compra`),
+  FOREIGN key (`id_proveedor`) REFERENCES `proveedor`(`id_proveedor`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+/*Table structure for table `xxxx` */
+/*Table structure for table `xxxx` */
 /*Table structure for table `xxxx` */
 /*Table structure for table `xxxx` */
 
