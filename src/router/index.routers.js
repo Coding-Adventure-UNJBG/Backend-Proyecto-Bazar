@@ -15,9 +15,10 @@ app.use("/", (req, res, next) => {
 app.get("/", (req, res) => {
     res.send("Primera Api para la universidad");
 });
+
 // importanto rutas
-app.use("/api/v1", ciudad);
-app.use("/api/v1", pruebas);
+app.use("/api/v1/ciudad", ciudad);
+app.use("/api/v1/pruebas", pruebas);
 
 // respuesta por defecto para todas las rutas no especificadas
 app.use("*", (req, res) => {
