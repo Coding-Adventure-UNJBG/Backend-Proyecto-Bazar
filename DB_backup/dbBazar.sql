@@ -75,7 +75,7 @@ CREATE TABLE `proveedor`(
   `estado` enum('activado','desactivado') NOT NULL DEFAULT 'desactivado',
   `fecha_registro` DATETIME NOT NULL DEFAULT current_timestamp(),
   `comentario` TINYTEXT DEFAULT '',
-  PRIMARY KEY (`id_rol`)
+  PRIMARY KEY (`id_proveedor`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `compra` */
@@ -83,7 +83,7 @@ DROP TABLE IF EXISTS `compra`;
 
 CREATE TABLE `compra`(
   `id_compra` INTEGER NOT NULL AUTO_INCREMENT,
-  `id_proveedor` SMALLINT NULL,
+  `id_proveedor` SMALLINT UNSIGNED NOT NULL,
   `numero_comprobante` VARCHAR(16) NOT NULL,
   `descripcion` TEXT NULL,
   `importe_total` numeric(9,4) NOT NULL,
@@ -99,20 +99,21 @@ CREATE TABLE `compra`(
 DROP TABLE IF EXISTS `producto`;
 
 CREATE TABLE `producto`(
-  `id_producto` SMALLINT NULL AUTO_INCREMENT,
+  `id_producto` SMALLINT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(32) NOT NULL,
   `medida` VARCHAR(32) NOT NULL,
   `marca` VARCHAR(32) NOT NULL,
-  `tipo_unidad` enum('paquete','unidad') NULL DEFAULT 'unidad',
-  `cantidad_unidad` TINYINT NULL DEFAULT 1,
+  `tipo_unidad` enum('paquete','unidad') NOT NULL DEFAULT 'unidad',
+  `cantidad_unidad` TINYINT NOT NULL DEFAULT 1,
   `precio_sugerido` numeric(9,4) NULL DEFAULT 10000,
-  `estado` enum('disponible','no-disponible') NULL DEFAULT 'no-disponible',
+  `estado` enum('disponible','no-disponible') NOT NULL DEFAULT 'no-disponible',
   `stock` SMALLINT NOT NULL,
   `fecha` DATETIME NULL DEFAULT current_timestamp(),
   `comentario` TINYTEXT DEFAULT '',
   PRIMARY KEY (`id_producto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+/*Data for the table `producto` */
 INSERT INTO producto(nombre,medida,marca,stock) 
 VALUES
 ('detergente','800 gr','amor',0),
@@ -185,7 +186,7 @@ CREATE TABLE `caja`(
 /*Table structure for table `detalle_caja` */
 DROP TABLE IF EXISTS `detalle_caja`;
 CREATE TABLE `detalle_caja`(
-  `id_caja` INTEGER  NOT NULL,
+  `id_caja` TINYINT UNSIGNED NOT NULL,
   `id_detalle` SMALLINT NOT NULL,
   `fecha` DATETIME NOT NULL DEFAULT current_timestamp(),
   `saldo_anterior` numeric(9,4) NOT NULL,
@@ -202,7 +203,7 @@ CREATE TABLE `logs`(
   `nombre_usuario` VARCHAR(32) NOT NULL,
   `saldo` numeric(9,4),
   `comentario` TINYTEXT DEFAULT '',
-  PRIMARY KEY (`id_caja`)
+  PRIMARY KEY (`id_registro`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 

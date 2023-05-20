@@ -3,7 +3,10 @@ const router = new Router();
 
 import controllers from '../controllers/producto.js';
 
+router.route("/:id")
+.get( controllers.buscarId );
+
 router.route("/")
-.get( controllers.mostrarTodo );
+.get( controllers.mostrar );
 
 export default router;
