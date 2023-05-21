@@ -20,6 +20,7 @@ CREATE TABLE `detalle_usuario` (
   `provincia` VARCHAR(32) NULL,
   `departamento` VARCHAR(32) NULL,
   `comentario` TEXT NULL,
+  UNIQUE (`dni`),
   PRIMARY KEY (`id_detalle`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -35,8 +36,8 @@ CREATE TABLE `usuario` (
   `fecha_registro` DATETIME NOT NULL DEFAULT current_timestamp(),
   `fecha_mod` DATETIME NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `comentario` TINYTEXT DEFAULT '',
+  UNIQUE (`cuenta`),
   PRIMARY KEY(`id_usuario`),
-  UNIQUE KEY `cuenta` (`cuenta`),
   FOREIGN KEY (`id_detalle`) REFERENCES `detalle_usuario`(`id_detalle`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -44,7 +45,10 @@ CREATE TABLE `usuario` (
 LOCK TABLES `usuario` WRITE;
 INSERT INTO usuario(id_usuario,cuenta,password,estado,comentario)
 VALUES
-(1,'ADMIN','12345','1','Administrador del sistema');
+(1,'ADMIN','123','1','Administrador del sistema'),
+(2,'INVENTARIO','123','1','Responsable de almacen'),
+(3,'VENDEDOR','123','1','Vendedor de la empresa'),
+(4,'REPORTE','123','1','Empleado a prueba');
 
 UNLOCK TABLES;
 
@@ -59,6 +63,16 @@ CREATE TABLE `rol`(
   PRIMARY KEY (`id_rol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+/*Data for the table `rol` */
+LOCK TABLES `rol` WRITE;
+INSERT INTO rol(id_rol,tipo,permiso_defecto,comentario)
+VALUES
+(1,'admin','{"productos":true,"entradas":true,"ventas":true,"usuarios":true,"reportes":true}','nivel de administrador en el sistemas'),
+(2,'inventario','{"productos":true,"entradas":true,"ventas":false,"usuarios":false,"reportes":true}','nivel del encargado del almacen e inventario en el sistemas'),
+(3,'vendedor','{"productos":false,"entradas":false,"ventas":true,"usuarios":false,"reportes":true}','nivel de vendedor en el sistemas'),
+(4,'reporte','{"productos":false,"entradas":false,"ventas":false,"usuarios":false,"reportes":true}','nivel de empleado a prueba');
+
+UNLOCK TABLES;
 /*Table structure for table `detalle_rol` */
 DROP TABLE IF EXISTS `detalle_rol`;
 
@@ -68,9 +82,21 @@ CREATE TABLE `detalle_rol`(
   `permiso` JSON NOT NULL,
   `is_custom` BOOLEAN DEFAULT 0,
   `comentario` TINYTEXT DEFAULT '',
+  PRIMARY KEY(`id_usuario`, `id_rol`),
   FOREIGN key (`id_usuario`) REFERENCES `usuario`(`id_usuario`),
   FOREIGN key (`id_rol`) REFERENCES `rol`(`id_rol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `rol` */
+LOCK TABLES `detalle_rol` WRITE;
+INSERT INTO detalle_rol(id_usuario,id_rol,permiso,is_custom)
+VALUES
+(1,1,'{"productos":true,"entradas":true,"ventas":true,"usuarios":true,"reportes":true}',0),
+(2,2,'{"productos":true,"entradas":true,"ventas":false,"usuarios":false,"reportes":true}',0),
+(3,3,'{"productos":false,"entradas":false,"ventas":true,"usuarios":false,"reportes":true}',0),
+(4,4,'{"productos":false,"entradas":false,"ventas":false,"usuarios":false,"reportes":true}',0);
+
+UNLOCK TABLES;
 
 /*Table structure for table `proveedor` */
 DROP TABLE IF EXISTS `proveedor`;

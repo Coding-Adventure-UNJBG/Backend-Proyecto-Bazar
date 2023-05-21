@@ -21,7 +21,10 @@ model.buscarId = (id) => {
 };
 
 model.ingreso = (name) => {
-    const query = `SELECT cuenta, password FROM usuario WHERE cuenta = '${name}'`;
+    const query = `SELECT u.cuenta, u.password, r.tipo, dr.permiso
+                    FROM usuario u INNER JOIN detalle_rol dr INNER JOIN rol r
+                    ON u.id_usuario = dr.id_usuario AND dr.id_rol=r.id_rol
+                    WHERE u.cuenta = '${name}'`;
     return sequelize.query(query , { raw: true })
         .then(([result, metadata]) => {
             //console.log(metadata);
