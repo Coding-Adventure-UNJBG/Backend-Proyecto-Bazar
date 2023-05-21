@@ -31,13 +31,22 @@ CREATE TABLE `usuario` (
   `id_detalle` SMALLINT UNSIGNED NULL,
   `cuenta` VARCHAR(16) NOT NULL,
   `password` VARCHAR(32) NOT NULL,
-  `estado` enum('activado','desactivado') NOT NULL DEFAULT 'desactivado',
+  `estado` enum('habilitado','deshabilitado') NOT NULL DEFAULT 'deshabilitado',
   `fecha_registro` DATETIME NOT NULL DEFAULT current_timestamp(),
   `fecha_mod` DATETIME NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `comentario` TINYTEXT DEFAULT '',
   PRIMARY KEY(`id_usuario`),
+  UNIQUE KEY `cuenta` (`cuenta`),
   FOREIGN KEY (`id_detalle`) REFERENCES `detalle_usuario`(`id_detalle`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+/*Data for the table `usuario` */
+LOCK TABLES `usuario` WRITE;
+INSERT INTO usuario(id_usuario,cuenta,password,estado,comentario)
+VALUES
+(1,'ADMIN','12345','1','Administrador del sistema');
+
+UNLOCK TABLES;
 
 /*Table structure for table `rol` */
 DROP TABLE IF EXISTS `rol`;
@@ -72,7 +81,7 @@ CREATE TABLE `proveedor`(
   `ruc` VARCHAR(32) NULL,
   `razon_social` TINYTEXT NOT NULL,
   `direccion` TINYTEXT NOT NULL,
-  `estado` enum('activado','desactivado') NOT NULL DEFAULT 'desactivado',
+  `estado` enum('habilitado','deshabilitado') NOT NULL DEFAULT 'deshabilitado',
   `fecha_registro` DATETIME NOT NULL DEFAULT current_timestamp(),
   `comentario` TINYTEXT DEFAULT '',
   PRIMARY KEY (`id_proveedor`)
@@ -114,11 +123,14 @@ CREATE TABLE `producto`(
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `producto` */
-INSERT INTO producto(nombre,medida,marca,stock) 
+LOCK TABLES `producto` WRITE;
+INSERT INTO producto(nombre,medida,marca,stock)
 VALUES
 ('detergente','800 gr','amor',0),
 ('detergente','900 gr','orion',0),
 ('detergente','15 kg','doffi',0);
+
+UNLOCK TABLES;
 
 /*Table structure for table `detalle_compra` */
 DROP TABLE IF EXISTS `detalle_compra`;
@@ -138,8 +150,8 @@ DROP TABLE IF EXISTS `cliente`;
 CREATE TABLE `cliente`(
   `id_cliente` INTEGER(6) NOT NULL AUTO_INCREMENT,
   `dni_ruc` integer(12) NOT NULL,
-  `nombre` TEXT NULL,
-  `direccion` TEXT NOT NULL,
+  `nombre` TEXT NOT NULL,
+  `direccion` TEXT NULL,
   `comentario` TINYTEXT DEFAULT '',
   PRIMARY KEY (`id_cliente`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -221,7 +233,8 @@ CREATE TABLE `country` (
 
 LOCK TABLES `country` WRITE;
 
-insert  into `country`(`country_id`,`country`,`last_update`,`coment`) values 
+insert  into `country`(`country_id`,`country`,`last_update`,`coment`)
+values
 (1,'Afghanistan22','2023-05-07 15:06:30',''),
 (2,'Algeria','2006-02-15 04:44:00',''),
 (3,'American Samoa','2006-02-15 04:44:00',''),
@@ -338,3 +351,5 @@ insert  into `country`(`country_id`,`country`,`last_update`,`coment`) values
 (114,'Afghanistan22','2023-05-07 15:34:11','pruebas'),
 (115,'Afghanistan22','2023-05-07 15:37:07','pruebas'),
 (116,'Afghanistan22','2023-05-07 15:38:34','pruebas');
+
+UNLOCK TABLES;
