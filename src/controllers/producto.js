@@ -1,6 +1,9 @@
 const controllers= {};
 import model from '../model/producto.js';
 
+import { cleanTemporaryFile, deleteFile } from '../config/multer.js';
+import helperImg from '../config/sharp.js'
+
 controllers.mostrar = async (req, res) => {
     console.log(req.body)
     if(req.body.nombre){ // mostrar resultado por nombre
@@ -48,5 +51,33 @@ controllers.buscarId = async (req, res) => {
         res.status(500).send({error:'Error interno del servidor al obtener los datos'});
     });
 }
+
+controllers.insertar = async (req, res) => {
+    model.insertar(req.body)
+    .then((response) => {
+    console.log(response);
+    if (response[1] === 1) {
+        res.status(201).send({ message: 'Datos insertados correctamente' });
+    } else {
+        res.status(500).send({ error: 'Error al insertar los datos' });
+    }
+    })
+    .catch((err) => {
+    res.status(500).send({ error: 'Error interno del servidor' });
+    });
+};
+
+controllers.cargarImagen = async (req, res) => {
+    //console.log(req.file)
+    const { unixTimestamp } = req.query
+    if( unixTimestamp ) {
+        helperImg(req.file.path, `op-${req.file.filename}`, 700)
+        res.status(201).send({ message: 'Imagen almacenada' });
+        //deleteFile(req.file.filename);
+    } else {
+        cleanTemporaryFile();
+        res.status(500).send({ error: 'Falta la marca de tiempo UNIX' });
+    }
+};
 
 export default controllers;

@@ -143,6 +143,7 @@ CREATE TABLE `producto`(
   `precio_sugerido` numeric(9,4) NULL DEFAULT 10000,
   `estado` enum('disponible','no-disponible') NOT NULL DEFAULT 'no-disponible',
   `stock` SMALLINT NOT NULL,
+  `foto` VARCHAR(64) NOT NULL DEFAULT '',
   `fecha` DATETIME NULL DEFAULT current_timestamp(),
   `comentario` TINYTEXT DEFAULT '',
   PRIMARY KEY (`id_producto`)
