@@ -5,9 +5,8 @@ import { cleanTemporaryFile, deleteFile } from '../config/multer.js';
 import helperImg from '../config/sharp.js'
 
 controllers.mostrar = async (req, res) => {
-    console.log(req.body)
-    if(req.body.nombre){ // mostrar resultado por nombre
-        let nombre = req.body.nombre;
+    if(req.query.nombre){ // mostrar resultado por nombre
+        let nombre = req.query.nombre;
         model.buscarNombre(nombre)
         .then((data) => {
             if(data.length == 0){
