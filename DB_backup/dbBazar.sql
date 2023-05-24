@@ -140,10 +140,10 @@ CREATE TABLE `producto`(
   `marca` VARCHAR(32) NOT NULL,
   `tipo_unidad` enum('paquete','unidad') NOT NULL DEFAULT 'unidad',
   `cantidad_unidad` TINYINT NOT NULL DEFAULT 1,
-  `precio_sugerido` numeric(9,4) NULL DEFAULT 10000,
+  `precio_sugerido` numeric(9,4) NULL DEFAULT 0,
   `estado` enum('disponible','no-disponible') NOT NULL DEFAULT 'no-disponible',
-  `stock` SMALLINT NOT NULL,
-  `foto` VARCHAR(64) NOT NULL DEFAULT '',
+  `stock` SMALLINT NOT NULL DEFAULT 0,
+  `foto` VARCHAR(70) NOT NULL DEFAULT '',
   `fecha` DATETIME NULL DEFAULT current_timestamp(),
   `comentario` TINYTEXT DEFAULT '',
   PRIMARY KEY (`id_producto`)

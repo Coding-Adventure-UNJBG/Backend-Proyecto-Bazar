@@ -29,6 +29,14 @@ export async function cleanTemporaryFile () {
 }
 
 // borrar imagen especifica
-export async function deleteFile (nameImage) {
-    fs.unlink(`photos/${nameImage}`, () => {});
+export async function deleteFile(nameImage) {
+    //nameImage = nameImage.substring(39)
+    nameImage = `photos/${nameImage}`
+    fs.unlink(nameImage, (error) => {
+        if (error){
+            console.log("error al borrar la iamgen: " + error)
+        } else {
+            console.log("eliminando: " + nameImage)
+        }
+    });
 }

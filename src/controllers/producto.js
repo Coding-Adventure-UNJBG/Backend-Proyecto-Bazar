@@ -52,17 +52,18 @@ controllers.buscarId = async (req, res) => {
 }
 
 controllers.insertar = async (req, res) => {
+    console.log(req.body)
     model.insertar(req.body)
     .then((response) => {
-    console.log(response);
-    if (response[1] === 1) {
-        res.status(201).send({ message: 'Datos insertados correctamente' });
-    } else {
-        res.status(500).send({ error: 'Error al insertar los datos' });
-    }
+        console.log("Cantidad de filas insertadas: " + response);
+        if (response >= 1) {
+            res.status(201).send({ message: 'Producto guardado de forma segura' });
+        } else {
+            res.status(500).send({ error: 'Error al insertar los datos' });
+        }
     })
     .catch((err) => {
-    res.status(500).send({ error: 'Error interno del servidor' });
+        res.status(500).send({ error: 'Error interno del servidor' });
     });
 };
 
@@ -70,9 +71,9 @@ controllers.cargarImagen = async (req, res) => {
     //console.log(req.file)
     const { unixTimestamp } = req.query
     if( unixTimestamp ) {
-        helperImg(req.file.path, `op-${req.file.filename}`, 700)
+        await helperImg(req.file.path, `op-${req.file.filename}`, 700)
+        deleteFile(req.file.filename)
         res.status(201).send({ message: 'Imagen almacenada' });
-        //deleteFile(req.file.filename);
     } else {
         cleanTemporaryFile();
         res.status(500).send({ error: 'Falta la marca de tiempo UNIX' });

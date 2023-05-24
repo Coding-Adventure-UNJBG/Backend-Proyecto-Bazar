@@ -2,7 +2,7 @@ const model= {};
 import sequelize from '../config/db.js';
 
 model.mostrarTodo = () => {
-    return sequelize.query('SELECT * FROM producto', { raw: true })
+    return sequelize.query('SELECT * FROM producto ORDER BY id_producto DESC', { raw: true })
         .then(([result, metadata]) => {
             //console.log(metadata);
             return result;
@@ -21,7 +21,7 @@ model.buscarId = (id) => {
 };
 
 model.buscarNombre = (name) => {
-    const query = `SELECT * FROM producto where nombre LIKE '%${name}%'`;
+    const query = `SELECT * FROM producto where nombre LIKE '%${name}% ORDER BY id_producto DESC'`;
     return sequelize.query(query , { raw: true })
         .then(([result, metadata]) => {
             //console.log(metadata);
@@ -31,14 +31,15 @@ model.buscarNombre = (name) => {
 };
 
 model.insertar = (data) => {
-    const { nombre,medida,marca,tipo_unidad,cantidad_unidad,foto,comentario } = data;
+    const { nombre, medida, marca, tipo_unidad, cantidad_unidad, foto } = data;
 
-    const query = `INSERT INTO country producto(nombre,medida,marca,tipo_unidad,cantidad_unidad,foto,comentario)
-                    VALUES ('${nombre}', '${medida}', '${marca}', '${tipo_unidad}', '${cantidad_unidad}', '${foto}', '${comentario}')`;
+    const query = `INSERT INTO producto(nombre,medida,marca,tipo_unidad,cantidad_unidad,foto)
+                    VALUES ('${nombre}', '${medida}', '${marca}', '${tipo_unidad}', '${cantidad_unidad}', '${foto}')`;
     return sequelize.query(query, { raw: true })
         .then(([result, metadata]) => {
-            //console.log(metadata);
-            return result;
+            //console.log(result + " -> result");
+            //console.log(metadata + " -> result");
+            return metadata;
         })
         .catch((error) => { throw error });
 };
