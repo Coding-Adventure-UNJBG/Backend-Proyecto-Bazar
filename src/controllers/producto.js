@@ -36,7 +36,8 @@ controllers.mostrar = async (req, res) => {
 };
 
 controllers.buscarId = async (req, res) => {
-    let id = req.params.codigo;
+    let id = req.params.id;
+    console.log(req.params)
     model.buscarId(id)
     .then((data) => {
         if(data.length == 0){
