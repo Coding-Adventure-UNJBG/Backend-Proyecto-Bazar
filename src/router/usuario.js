@@ -11,7 +11,8 @@ router.route('/login')
 .get( controllers.login );
 
 router.route('/:codigo')
-.get( controllers.buscarId );
+.get( controllers.buscarId )
+.patch( controllers.deshabilitar );
 
 router.route("/") // route es la abrevitura de get, post, delete  y put
 .get( controllers.mostrar )

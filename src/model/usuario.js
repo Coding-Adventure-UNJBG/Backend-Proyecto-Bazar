@@ -4,7 +4,8 @@ import sequelize from '../config/db.js';
 model.mostrarTodo = () => {
     const query = `SELECT u.id_usuario, u.cuenta, r.tipo, u.estado, DATE_FORMAT(u.fecha_registro, "%Y-%m-%d") AS 'fecha_registro', u.comentario
                     FROM usuario u INNER JOIN detalle_rol dr INNER JOIN rol r
-                    ON u.id_usuario = dr.id_usuario AND dr.id_rol=r.id_rol`
+                    ON u.id_usuario = dr.id_usuario AND dr.id_rol=r.id_rol
+                    GROUP BY u.id_usuario DESC`
     return sequelize.query(query, { raw: true })
         .then(([result, metadata]) => {
             //console.log(metadata);
@@ -17,7 +18,7 @@ model.buscarNombre = (name) => {
     const query = `SELECT u.id_usuario, u.cuenta, r.tipo, u.estado, DATE_FORMAT(u.fecha_registro, "%Y-%m-%d") AS 'fecha_registro', u.comentario
                     FROM usuario u INNER JOIN detalle_rol dr INNER JOIN rol r
                     ON u.id_usuario = dr.id_usuario AND dr.id_rol=r.id_rol
-                    where u.cuenta LIKE '%${name}%'`
+                    where u.cuenta LIKE '%${name}%' GROUP BY u.id_usuario DESC`
     return sequelize.query(query, { raw: true })
         .then(([result, metadata]) => {
             //console.log(metadata);
@@ -105,59 +106,15 @@ model.comprobarCuentaDni = (data) => {
         .catch((error) => { throw error });
 };
 
-/*
-model.insertar = async (data) => {
-    const { id_usuario, cuenta, password, rol, dni, nombres, telefono, direccion, estado, comentario } = data;
-
-    const queryObtIdUser = `SELECT MAX(id_usuario) AS 'id' FROM usuario`;
-    const obtenerIdUser = await sequelize.query(queryObtIdUser, { raw: true })
-    console.log(obtenerIdUser[0][0].id)
-    const data1 = obtenerIdUser[0][0].id;
-
-    const insertUser = `INSERT INTO usuario(id_usuario, cuenta,password,dni,nombres,telefono,direccion,estado,comentario)
-                    VALUES ('${obtenerIdUser}', '${cuenta}', '${password}', '${dni}', '${nombres}', '${telefono}', '${direccion}', '${estado}', '${comentario}')`;
-    sequelize.query(insertUser, { raw: true })
-
-    const querySelctRol = `SELECT permiso_defecto FROM rol WHERE id_rol = '${rol}'`
-    const selctRol = await sequelize.query(querySelctRol, { raw: true })
-    console.log(selctRol[0][0].permiso_defecto)
-    const data2 = selctRol[0][0].permiso_defecto
-
-    const queryInsertDetall = `INSERT INTO detalle_rol(id_usuario,id_rol,permiso)
-                                VALUES ('${data1}', '${rol}', '${data2}')`
-    const insertDetall = await sequelize.query(queryInsertDetall, { raw: true })
-
-
-
-
-    const selctRol = ''
-    const querySelctRol = `SELECT permiso_defecto FROM rol WHERE id_rol = '${rol}'`
-    await sequelize.query(querySelctRol, { raw: true })
+model.deshabilitar = (id, data) => {
+    const { estado } = data;
+    const query = `UPDATE usuario SET estado = '${data}' WHERE id_usuario = ${id}`;
+    return sequelize.query(query, { raw: true })
         .then(([result, metadata]) => {
-            console.log(result[0][0].permiso_defecto)
-            selctRol = result[0][0].permiso_defecto;
+            //console.log(metadata);
+            return result;
         })
         .catch((error) => { throw error });
-
-    const boolInsertUser = ''
-    const queryInsertUser = `INSERT INTO usuario(id_usuario, cuenta,password,dni,nombres,telefono,direccion,estado,comentario)
-                    VALUES ('${id_usuario}', '${cuenta}', '${password}', '${dni}', '${nombres}', '${telefono}', '${direccion}', '${estado}', '${comentario}')`;
-    await sequelize.query(queryInsertUser, { raw: true })
-        .then(([result, metadata]) => {
-            boolInsertUser = result;
-        })
-        .catch((error) => { throw error });
-
-    if(boolInsertUser){
-        const query = `INSERT INTO detalle_rol(id_usuario,id_rol,permiso)
-                        VALUES ('${id_usuario}', '${rol}', '${selctRol}');`
-        return sequelize.query(query, { raw: true })
-            .then(([result, metadata]) => {
-                return metadata;
-            })
-            .catch((error) => { throw error });
-    }
 };
-*/
 
 export default model;
