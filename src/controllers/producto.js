@@ -81,4 +81,28 @@ controllers.cargarImagen = async (req, res) => {
     }
 };
 
+// usando 'req.params' y 'req.body' para recibir datos
+controllers.update = async (req, res) => {
+    //console.log(req.params);
+    //console.log(req.body);
+
+    let id = req.params.id;
+    let data = req.body;
+    model.update(id, data)
+    .then((result) => {
+        //console.log(result);
+        let info = result.info.split(" "); // convertir respuesta a array
+        console.log(info);
+        if (result.rowsAffected > 0 || info[2] >= 1) {
+            res.json({ message: 'Registro actualizado correctamente' });
+        } else {
+            res.status(404).send({ error: 'No se encontró ningún registro para actualizar' });
+        }
+    })
+    .catch((err) => {
+        console.error(err);
+        res.status(500).send({ error: 'Error al actualizar el registro' });
+    });
+};
+
 export default controllers;

@@ -44,4 +44,22 @@ model.insertar = (data) => {
         .catch((error) => { throw error });
 };
 
+model.update = (id, data) => {
+    const { nombre, medida, marca, tipo_unidad, cantidad_unidad, foto } = data;
+    const query = `UPDATE producto SET
+                    nombre = "${nombre}",
+                    medida = "${medida}",
+                    marca = "${marca}",
+                    tipo_unidad = "${tipo_unidad}",
+                    cantidad_unidad = "${cantidad_unidad}",
+                    foto = "${foto}"
+                    WHERE id_producto = ${id}`;
+    return sequelize.query(query, { raw: true })
+        .then(([result, metadata]) => {
+            //console.log(metadata);
+            return result;
+        })
+        .catch((error) => { throw error });
+};
+
 export default model;

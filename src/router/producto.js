@@ -5,7 +5,8 @@ import controllers from '../controllers/producto.js';
 import { upload } from '../config/multer.js';
 
 router.route("/:id")
-.get( controllers.buscarId );
+.get( controllers.buscarId )
+.patch( controllers.update );
 
 router.route("/")
 .get( controllers.mostrar )
