@@ -8,47 +8,33 @@ USE `db_bazar`;
 /*Table structure for table `detalle_usuario` */
 DROP TABLE IF EXISTS `detalle_usuario`;
 
-CREATE TABLE `detalle_usuario` (
-  `id_detalle` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `nombres` VARCHAR(32) NOT NULL,
-  `apellidos` VARCHAR(32) NOT NULL,
-  `dni` integer(8) NOT NULL,
-  `telefono` VARCHAR(13) NOT NULL,
-  `correo` VARCHAR(20) NULL,
-  `direccion` VARCHAR(32) NULL,
-  `distrito` VARCHAR(32) NULL,
-  `provincia` VARCHAR(32) NULL,
-  `departamento` VARCHAR(32) NULL,
-  `comentario` TEXT NULL,
-  UNIQUE (`dni`),
-  PRIMARY KEY (`id_detalle`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
-/*Table structure for table `usuario` */
 DROP TABLE IF EXISTS `usuario`;
 
 CREATE TABLE `usuario` (
   `id_usuario` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-  `id_detalle` SMALLINT UNSIGNED NULL,
   `cuenta` VARCHAR(16) NOT NULL,
   `password` VARCHAR(32) NOT NULL,
+  `dni` integer(10) NOT NULL,
+  `nombres` VARCHAR(64) NOT NULL,
+  `telefono` VARCHAR(13) NULL,
+  `direccion` TINYTEXT NULL DEFAULT '',
   `estado` enum('habilitado','deshabilitado') NOT NULL DEFAULT 'deshabilitado',
   `fecha_registro` DATETIME NOT NULL DEFAULT current_timestamp(),
   `fecha_mod` DATETIME NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
   `comentario` TINYTEXT DEFAULT '',
+  UNIQUE (`dni`),
   UNIQUE (`cuenta`),
-  PRIMARY KEY(`id_usuario`),
-  FOREIGN KEY (`id_detalle`) REFERENCES `detalle_usuario`(`id_detalle`)
+  PRIMARY KEY(`id_usuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Data for the table `usuario` */
 LOCK TABLES `usuario` WRITE;
-INSERT INTO usuario(id_usuario,cuenta,password,estado,comentario)
+INSERT INTO usuario(id_usuario,cuenta,password,dni,nombres,estado,comentario)
 VALUES
-(1,'ADMIN','123','1','Administrador del sistema'),
-(2,'INVENTARIO','123','1','Responsable de almacen'),
-(3,'VENDEDOR','123','1','Vendedor de la empresa'),
-(4,'REPORTE','123','1','Empleado a prueba');
+(1,'ADMIN','123','11','11','1','Administrador del sistema'),
+(2,'INVENTARIO','123','22','22','1','Responsable de almacen'),
+(3,'VENDEDOR','123','33','33','1','Vendedor de la empresa'),
+(4,'REPORTE','123','44','44','1','Empleado a prueba');
 
 UNLOCK TABLES;
 
