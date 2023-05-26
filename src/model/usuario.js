@@ -2,7 +2,23 @@ const model= {};
 import sequelize from '../config/db.js';
 
 model.mostrarTodo = () => {
-    return sequelize.query('SELECT * FROM usuario', { raw: true })
+    const query = `SELECT u.id_usuario, u.id_detalle ,u.cuenta, r.tipo, u.estado, DATE_FORMAT(u.fecha_registro, "%Y-%m-%d") AS 'fecha_registro', u.comentario
+                    FROM usuario u INNER JOIN detalle_rol dr INNER JOIN rol r
+                    ON u.id_usuario = dr.id_usuario AND dr.id_rol=r.id_rol`
+    return sequelize.query(query, { raw: true })
+        .then(([result, metadata]) => {
+            //console.log(metadata);
+            return result;
+        })
+        .catch((error) => { throw error });
+};
+
+model.buscarNombre = (name) => {
+    const query = `SELECT u.id_usuario, u.id_detalle, u.cuenta, r.tipo, u.estado, DATE_FORMAT(u.fecha_registro, "%Y-%m-%d") AS 'fecha_registro', u.comentario
+                    FROM usuario u INNER JOIN detalle_rol dr INNER JOIN rol r
+                    ON u.id_usuario = dr.id_usuario AND dr.id_rol=r.id_rol
+                    where u.cuenta LIKE '%${name}%'`
+    return sequelize.query(query, { raw: true })
         .then(([result, metadata]) => {
             //console.log(metadata);
             return result;

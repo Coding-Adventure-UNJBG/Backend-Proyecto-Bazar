@@ -21,7 +21,7 @@ model.buscarId = (id) => {
 };
 
 model.buscarNombre = (name) => {
-    const query = `SELECT * FROM producto where nombre LIKE '%${name}% ORDER BY id_producto DESC'`;
+    const query = `SELECT * FROM producto where nombre LIKE '%${name}%' ORDER BY id_producto DESC`;
     return sequelize.query(query , { raw: true })
         .then(([result, metadata]) => {
             //console.log(metadata);
