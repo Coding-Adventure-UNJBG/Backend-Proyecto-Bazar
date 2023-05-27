@@ -87,7 +87,7 @@ controllers.obtenerId = async (req, res) => {
 controllers.insertar = async (req, res) => {
     //console.log(req.body)
     let permisos = ''
-    await model.obtenerPermisos(req.body)
+    await model.obtenerPermisos(req.body.rol)
     .then((data) => {
         if(data.length == 0){
             res.status(404).send({error: 'No se encontraron resultados del permiso indicado'});
@@ -173,5 +173,58 @@ controllers.deshabilitar = async (req, res) => {
     });
 };
 
+controllers.actualizar = async (req, res) => {
+    //console.log(req.body);
+    let permisos = ''
+    await model.obtenerPermisos(req.body.id_rol)
+    .then((data) => {
+        if(data.length == 0){
+            res.status(404).send({error: 'No se encontraron resultados del permiso indicado'});
+        } else {
+            permisos = data[0].permiso_defecto;
+            console.log("Permisos: " + permisos)
+        }
+    })
+    .catch((error) => {
+        //console.error(error);
+        res.status(500).send({error:'Error interno del servidor al obtener los datos'});
+    });
+
+    let boolUpdateUser = false;
+    await model.actualizarPermisos(req.body.id_usuario, req.body.id_rol, permisos)
+    .then((result) => {
+        //console.log(result);
+        let info = result.info.split(" "); // convertir respuesta a array
+        console.log(info);
+        if (result.rowsAffected > 0 || info[2] >= 1) {
+            //res.json({ message: 'Registro actualizado correctamente' });
+            boolUpdateUser = true
+        } else {
+            res.status(404).send({ error: 'No se encontró ningún registro para actualizar' });
+        }
+    })
+    .catch((error) => {
+        //console.error(error);
+        res.status(500).send({error:'Error interno del servidor al obtener los datos'});
+    });
+
+    if(boolUpdateUser){
+        model.actualizar(req.body)
+        .then((result) => {
+            //console.log(result);
+            let info = result.info.split(" "); // convertir respuesta a array
+            console.log(info);
+            if (result.rowsAffected > 0 || info[2] >= 1) {
+                res.json({ message: 'Registro actualizado correctamente' });
+            } else {
+                res.status(404).send({ error: 'No se encontró ningún registro para actualizar' });
+            }
+        })
+        .catch((err) => {
+            console.error(err);
+            res.status(500).send({ error: 'Error al actualizar el registro' });
+        });
+    }
+};
 
 export default controllers;

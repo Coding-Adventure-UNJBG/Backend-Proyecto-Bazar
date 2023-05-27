@@ -28,7 +28,10 @@ model.buscarNombre = (name) => {
 };
 
 model.buscarId = (id) => {
-    const query = `SELECT * FROM usuario where id_usuario ='${id}'`;
+    const query = `SELECT u.id_usuario, u.cuenta, u.password, dr.id_rol, u.dni, u.nombres, u.telefono, u.direccion, u.estado
+                    FROM usuario u INNER JOIN detalle_rol dr INNER JOIN rol r
+                    ON u.id_usuario = dr.id_usuario AND dr.id_rol=r.id_rol
+                    where u.id_usuario ='${id}'`;
     return sequelize.query(query , { raw: true })
         .then(([result, metadata]) => {
             //console.log(metadata);
@@ -60,8 +63,7 @@ model.obtenerId = () => {
         .catch((error) => { throw error });
 };
 
-model.obtenerPermisos = async (data) => {
-    const { rol } = data;
+model.obtenerPermisos = async (rol) => {
     const query = `SELECT permiso_defecto FROM rol WHERE id_rol = '${rol}'`
     return sequelize.query(query, { raw: true })
         .then(([result, metadata]) => {
@@ -109,6 +111,37 @@ model.comprobarCuentaDni = (data) => {
 model.deshabilitar = (id, data) => {
     const { estado } = data;
     const query = `UPDATE usuario SET estado = '${data}' WHERE id_usuario = ${id}`;
+    return sequelize.query(query, { raw: true })
+        .then(([result, metadata]) => {
+            //console.log(metadata);
+            return result;
+        })
+        .catch((error) => { throw error });
+};
+
+model.actualizarPermisos = (idUser, idPermisos, permisos) => {
+    const query = `UPDATE detalle_rol SET
+                    permiso = '${permisos}',
+                    id_rol = ${idPermisos}
+                    WHERE id_usuario = ${idUser}`;
+    return sequelize.query(query, { raw: true })
+        .then(([result, metadata]) => {
+            //console.log(metadata);
+            return result;
+        })
+        .catch((error) => { throw error });
+};
+
+model.actualizar = (data) => {
+    const { id_usuario, password, dni, nombres, telefono, direccion, estado } = data;
+    const query = `UPDATE usuario SET
+                    password = "${password}",
+                    dni = "${dni}",
+                    nombres = "${nombres}",
+                    telefono = "${telefono}",
+                    direccion = "${direccion}",
+                    estado = "${estado}"
+                    WHERE id_usuario = ${id_usuario}`;
     return sequelize.query(query, { raw: true })
         .then(([result, metadata]) => {
             //console.log(metadata);

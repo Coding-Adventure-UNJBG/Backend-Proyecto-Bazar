@@ -16,6 +16,7 @@ router.route('/:codigo')
 
 router.route("/") // route es la abrevitura de get, post, delete  y put
 .get( controllers.mostrar )
-.post( controllers.insertar );
+.post( controllers.insertar )
+.patch( controllers.actualizar );
 
 export default router;
