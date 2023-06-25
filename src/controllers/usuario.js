@@ -140,7 +140,7 @@ controllers.comprobarCuentaDni = async (req, res) => {
     .then((data) => {
         //console.log(data.length)
         if(data.length >= 1){
-            res.status(200).send({ error: 'El DNI o el nombre de cuenta ya fue registrado'});
+            res.status(200).send({ error: 'El DNI o el nombre de usuario ya fue registrado'});
         } else {
             res.status(200).send({ message: 'Datos de usuario no registrado' });
         }

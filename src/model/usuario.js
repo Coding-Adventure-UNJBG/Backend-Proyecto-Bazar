@@ -8,7 +8,7 @@ model.mostrarTodo = () => {
                     GROUP BY u.id_usuario DESC`
     return sequelize.query(query, { raw: true })
         .then(([result, metadata]) => {
-            //console.log(metadata);
+            // console.log(metadata);
             return result;
         })
         .catch((error) => { throw error });
@@ -28,7 +28,7 @@ model.buscarNombre = (name) => {
 };
 
 model.buscarId = (id) => {
-    const query = `SELECT u.id_usuario, u.cuenta, u.password, dr.id_rol, u.dni, u.nombres, u.telefono, u.direccion, u.estado
+    const query = `SELECT u.id_usuario, u.cuenta, u.password, dr.id_rol, u.dni, u.nombres, u.telefono, u.direccion, u.comentario, u.estado
                     FROM usuario u INNER JOIN detalle_rol dr INNER JOIN rol r
                     ON u.id_usuario = dr.id_usuario AND dr.id_rol=r.id_rol
                     where u.id_usuario ='${id}'`;
@@ -133,13 +133,14 @@ model.actualizarPermisos = (idUser, idPermisos, permisos) => {
 };
 
 model.actualizar = (data) => {
-    const { id_usuario, password, dni, nombres, telefono, direccion, estado } = data;
+    const { id_usuario, password, dni, nombres, telefono, direccion, comentario,  estado } = data;
     const query = `UPDATE usuario SET
                     password = "${password}",
                     dni = "${dni}",
                     nombres = "${nombres}",
                     telefono = "${telefono}",
                     direccion = "${direccion}",
+                    comentario = "${comentario}",
                     estado = "${estado}"
                     WHERE id_usuario = ${id_usuario}`;
     return sequelize.query(query, { raw: true })
