@@ -6,6 +6,7 @@ import pruebas from './pruebas.js';
 // rutas del proyecto
 import producto from './producto.js';
 import usuario from './usuario.js';
+import proveedor from './proveedor.js';
 
 const app = express();
 
@@ -27,6 +28,7 @@ app.use("/api/v1/ciudad", ciudad);
 app.use("/api/v1/pruebas", pruebas);
 app.use("/api/v1/producto", producto);
 app.use("/api/v1/usuario", usuario);
+app.use("/api/v1/proveedor", proveedor);
 
 // respuesta por defecto para todas las rutas no especificadas
 app.use("*", (req, res) => {
