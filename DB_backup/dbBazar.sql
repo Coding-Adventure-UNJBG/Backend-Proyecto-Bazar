@@ -154,16 +154,26 @@ UNLOCK TABLES;
 /*Table structure for table `detalle_compra` */
 DROP TABLE IF EXISTS `detalle_compra`;
 
-CREATE TABLE `detalle_compra`(
-  `id_compra` INTEGER  NOT NULL,
+CREATE TABLE `detalle_compra` (
+  `id_compra` INTEGER NOT NULL,
   `id_producto` SMALLINT NOT NULL,
-  `cantidad` integer(5) UNSIGNED NOT NULL,
-  `precio_bruto` numeric(9,4) UNSIGNED NOT NULL,
+  `cantidad` INTEGER(5) UNSIGNED NOT NULL,
+  `precio_bruto` NUMERIC(9,4) UNSIGNED NOT NULL,
   `comentario` TINYTEXT DEFAULT '',
-  PRIMARY KEY (`id_producto`,`id_compra`),
   FOREIGN KEY (`id_producto`) REFERENCES `producto`(`id_producto`),
   FOREIGN KEY (`id_compra`) REFERENCES `compra`(`id_compra`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- CREATE TABLE `detalle_compra`(
+--   `id_compra` INTEGER  NOT NULL,
+--   `id_producto` SMALLINT NOT NULL,
+--   `cantidad` integer(5) UNSIGNED NOT NULL,
+--   `precio_bruto` numeric(9,4) UNSIGNED NOT NULL,
+--   `comentario` TINYTEXT DEFAULT '',
+--   PRIMARY KEY (`id_producto`,`id_compra`),
+--   FOREIGN KEY (`id_producto`) REFERENCES `producto`(`id_producto`),
+--   FOREIGN KEY (`id_compra`) REFERENCES `compra`(`id_compra`)
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 /*Table structure for table `cliente` */
 DROP TABLE IF EXISTS `cliente`;
