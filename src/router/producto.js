@@ -4,6 +4,8 @@ const router = new Router();
 import controllers from '../controllers/producto.js';
 import { upload } from '../config/multer.js';
 
+router.get("/obtener/id", controllers.obtenerId )
+
 router.route("/:id")
 .get( controllers.buscarId )
 .patch( controllers.update );
