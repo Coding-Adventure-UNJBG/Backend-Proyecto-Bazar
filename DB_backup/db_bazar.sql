@@ -49,7 +49,7 @@ DROP TABLE IF EXISTS `proveedor`;
 CREATE TABLE `proveedor` (
     `id_proveedor` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
     `nombre` VARCHAR(32) NOT NULL,
-    `ruc` INTEGER(11) NULL UNIQUE,
+    `ruc` VARCHAR(32) NULL UNIQUE,
     `razon_social` TINYTEXT NULL,
     `direccion` TINYTEXT NULL,
     `estado` enum('HABILITADO', 'DESHABILITADO') NOT NULL DEFAULT 'DESHABILITADO',
@@ -62,7 +62,7 @@ DROP TABLE IF EXISTS `producto`;
 
 CREATE TABLE `producto` (
     `id_producto` SMALLINT UNSIGNED NOT NULL AUTO_INCREMENT,
-    `nombre` VARCHAR(32) NOT NULL,
+    `nombre` VARCHAR(64) NOT NULL,
     `marca` VARCHAR(32) NOT NULL,
     `unidad` VARCHAR(32) NOT NULL,
     `estado` enum('DISPONIBLE', 'AGOTADO') NOT NULL DEFAULT 'AGOTADO',
@@ -94,7 +94,7 @@ CREATE TABLE `compra` (
     `cantidad` INTEGER(5) UNSIGNED NOT NULL,
     `precio_compra` DECIMAL(9,4) UNSIGNED NOT NULL,
     `importe_total` DECIMAL(9,4) UNSIGNED NOT NULL,
-    `costo_operacion` DECIMAL(9,4) UNSIGNED NOT NULL,
+    `costo_operacion` DECIMAL(9,4) UNSIGNED NOT NULL DEFAULT 0,
     `fecha` DATETIME NOT NULL DEFAULT current_timestamp(),
     PRIMARY KEY (`id_compra`),
     FOREIGN KEY (`id_proveedor`) REFERENCES `proveedor`(`id_proveedor`),
@@ -186,4 +186,25 @@ VALUES
 (2,2,'{"productos":true,"entradas":true,"ventas":false,"usuarios":false,"reportes":true}',0),
 (3,3,'{"productos":false,"entradas":false,"ventas":true,"usuarios":false,"reportes":true}',0),
 (4,4,'{"productos":false,"entradas":false,"ventas":false,"usuarios":false,"reportes":true}',0);
+UNLOCK TABLES;
+
+/* DATOS PARA LA TABLA PRODUCTO */
+LOCK TABLES `producto` WRITE;
+INSERT INTO producto(nombre, marca, unidad)
+VALUES
+('PAÑOS ABSORVENTES', 'SAPOLIO', '20 UNIDA' ),
+('PASTA  DENTAL', 'DENTO', '75 ML'),
+('JABON ANTIBACTERIAL', 'AVAL', '400 ML'),
+('JABON ANTIBACTERIAL', 'AVAL', 'LITRO'),
+('JABON  BALLERINA RESPUESTO', 'BALLERINA', '900 ML');
+UNLOCK TABLES;
+
+/* DATOS PARA LA TABLA PROVEEDORES */
+LOCK TABLES `proveedor` WRITE;
+INSERT INTO proveedor(ruc, nombre, razon_social, direccion)
+VALUES
+('20519893259', 'IMPORT EXPORT GINSA EIRL', 'IMPORT EXPORT GINSA EMPRESA INDIVIDUAL DE RESPONSABILIDAD LIMITADA', 'MZA. D LOTE. 11 ASOC.VIV.LA FRONTERA (ESPALDAS DEL MERCADILLO BOLOGNESI) TACNA - TACNA - TACNA'),
+('20558614120', 'CMS DEL SUR S.A.C.', 'CMS DEL SUR S.A.C.', 'MZA. E LOTE. 11B Z.I. PARQUE INDUSTRIAL (A MEDIA CUADRA DE FERRETERIA HELEO) TACNA - TACNA - TACNA'),
+('20100220700', 'DIMEXA', 'DIMEXA S.A.', 'MZA. B LOTE. 12 URB. SANTA MARIA AREQUIPA - AREQUIPA - PAUCARPATA'),
+('', 'POLVOS ROSADOS', '', 'AV. GUSTAVO PINTO S/N ALTO DE LA ALIANZA, GUSTAVO PINTO, TACNA');
 UNLOCK TABLES;
