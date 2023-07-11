@@ -22,6 +22,21 @@ model.insertarCompra = (data) => {
     .catch((errror) => { throw errror })
 }
 
+model.actualizarStock = (data) => {
+  const { id_producto, cantidad } = data
+  // const query = `UPDATE producto SET stock = stock + '${cantidad}' WHERE id_producto = '${id_producto}'`
+  const query = `UPDATE producto SET 
+                  stock = stock + '${cantidad}', 
+                  estado = IF(stock = 0, 'AGOTADO', 'DISPONIBLE') 
+                  WHERE id_producto = '${id_producto}'`
+  return sequelize.query(query, { raw: true })
+    .then(([result, metadata]) => {
+      // console.log(metadata)
+      return result
+    })
+    .catch((errror) => { throw errror })
+}
+
 model.borrarEntrada = (data) => {
   const { id_compra } = data
   const query = `DELETE FROM compra WHERE id_compra = '${id_compra}'`

@@ -79,7 +79,7 @@ CREATE TABLE `precio_producto` (
     `id_producto` SMALLINT UNSIGNED NOT NULL,
     `fechaInicio` DATETIME NOT NULL DEFAULT current_timestamp(),
     `fechaFinal` DATETIME NOT NULL DEFAULT current_timestamp(),
-    `precio_sugerido` DECIMAL(9,4) UNSIGNED NOT NULL DEFAULT 0,
+    `precio_venta` DECIMAL(9,4) UNSIGNED NOT NULL DEFAULT 0,
     PRIMARY KEY (`fechaInicio`),
     FOREIGN KEY (`id_producto`) REFERENCES `producto`(`id_producto`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
