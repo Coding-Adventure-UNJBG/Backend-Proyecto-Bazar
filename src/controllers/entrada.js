@@ -19,6 +19,7 @@ controllers.obtenerId = async (req, res) => {
 
 controllers.insertar = async (req, res) => {
   let updateStock = false
+  let updatePrice = false
   await model.insertarCompra(req.body)
     .then((response) => {
       console.log("Cantidad de filas insertadas: " + response)
@@ -38,7 +39,8 @@ controllers.insertar = async (req, res) => {
       .then((result) => {
         let info = result.info.split(" ")
         if (result.rowsAffected > 0 || info[2] >= 1) {
-          res.json({ message: 'Stock actualizado correctamente' })
+          updatePrice = true
+          // res.json({ message: 'Stock actualizado correctamente' })
         } else {
           res.status(404).send({ error: 'No se encontró ningún registro para actualizar' })
         }
@@ -48,6 +50,21 @@ controllers.insertar = async (req, res) => {
         res.status(500).send({ error: 'Error interno del servidor al obtener resultados' })
       })
   } 
+
+  if (updatePrice) {
+    await model.actualizarPrecio(req.body)
+      .then((response) => {
+        console.log("Cantidad de filas insertadas: " + response)
+        if (response >= 0) {
+          res.status(201).send({ message: 'Entrada registrada correctamente' })
+        } else {
+          res.status(500).send({ error: 'Error al insertar los datos' })
+        }
+      })
+      .catch((err) => {
+        res.status(500).send({ error: 'Error interno del servidor al obtener resultados' })
+      })
+  }
 }
 
 
