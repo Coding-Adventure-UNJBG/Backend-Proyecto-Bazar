@@ -2,7 +2,17 @@ const model = {};
 import sequelize from '../config/db.js';
 
 model.mostrarTodo = () => {
-  return sequelize.query('SELECT * FROM producto ORDER BY id_producto DESC', { raw: true })
+  const query = `SELECT p.id_producto, p.nombre, p.marca, p.unidad, p.estado, p.stock, ROUND(pp.precio_venta, 2) AS precio_venta, p.foto, p.fecha, p.comentario 
+                  FROM producto AS p
+                  LEFT JOIN precio_producto AS pp ON p.id_producto = pp.id_producto
+                  WHERE pp.precio_venta = (
+                    SELECT precio_venta FROM precio_producto 
+                      WHERE id_producto = p.id_producto 
+                      ORDER BY fechaInicio DESC LIMIT 1
+                  ) OR pp.precio_venta IS NULL
+                  ORDER BY p.id_producto DESC`
+  // return sequelize.query('SELECT * FROM producto ORDER BY id_producto DESC', { raw: true })
+  return sequelize.query(query, { raw: true })
     .then(([result, metadata]) => {
       //console.log(metadata);
       return result;
