@@ -62,4 +62,14 @@ model.actualizarStock = (data) => {
     })
     .catch((errror) => { throw errror })
 }
+
+model.obtenerCorrelativo = () => {
+  const query = `SELECT MAX(correlativo) AS correlativo FROM venta`
+  return sequelize.query(query, { raw: true })
+    .then(([result, metadata]) => {
+      // console.log(metadata)
+      return result
+    })
+    .catch((errror) => { throw errror })
+}
 export default model

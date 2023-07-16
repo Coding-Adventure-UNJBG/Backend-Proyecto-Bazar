@@ -15,15 +15,15 @@ controllers.mostrar = async (req, res) => {
     })
 }
 
-controllers.obtenerId = async (req, res) => {
-  model.obtenerId()
+controllers.obtenerCorrelativo = async (req, res) => {
+  model.obtenerCorrelativo()
     .then((data) => {
       if (data.length == 0) {
         res.status(404).send({ error: 'No se encontraron resultados' })
       }
       else {
         // parseInt(data[0].id, 10) + 1
-        console.log(data[0].id)
+        console.log(data[0].correlativo)
         res.json(data)
       }
     })
