@@ -4,5 +4,6 @@ import controllers from "../controllers/ventas.js";
 
 router.route("/")
 .get( controllers.mostrar )
+.post( controllers.insertar )
 
 export default router
