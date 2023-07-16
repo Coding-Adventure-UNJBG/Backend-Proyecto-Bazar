@@ -53,7 +53,8 @@ model.insertarDetalle = (id_venta, data) => {
 
 model.actualizarStock = (data) => {
   const { id_producto, cantidad } = data
-  const query = `UPDATE producto SET stock = stock - '${cantidad}'
+  const query = `UPDATE producto SET stock = stock - '${cantidad}',
+                estado = IF(stock = 0, 'AGOTADO', 'DISPONIBLE')
                 WHERE id_producto = '${id_producto}'`
   return sequelize.query(query, { raw: true })
     .then(([result, metadata]) => {
