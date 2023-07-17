@@ -73,4 +73,19 @@ model.obtenerCorrelativo = () => {
     })
     .catch((errror) => { throw errror })
 }
+
+model.buscarID = (id) => {
+  const query = `SELECT v.id_venta, v.serie, v.correlativo, v.tipo_pago, FORMAT(v.total_dinero, 2) AS total_dinero, v.comentario, p.nombre, p.marca, p.unidad, dv.cantidad, FORMAT(dv.costo_unitario, 2) AS precio_venta FROM venta AS v
+                  INNER JOIN detalle_venta AS dv
+                  ON v.id_venta = dv.id_venta
+                  INNER JOIN producto AS p
+                  ON p.id_producto = dv.id_producto
+                  WHERE v.id_venta = '${id}'`
+  return sequelize.query(query, { raw: true })
+    .then(([result, metadata]) => {
+      // console.log(metadata)
+      return result
+    })
+    .catch((errror) => { throw errror })
+}
 export default model

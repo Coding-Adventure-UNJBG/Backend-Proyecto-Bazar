@@ -82,4 +82,20 @@ controllers.insertar = async (req, res) => {
   }
 }
 
+controllers.buscarID = async (req, res) => {
+  let id = req.params.id
+  model.buscarID(id)
+    .then((data) => {
+      if (data.length == 0) {
+        res.status(400).send({ error: 'No se encontraron resultados' })
+      } else {
+        res.json(data)
+      }
+    })
+    .catch((error) => {
+      res.status(500).send({ error: 'Error interno del servidor al obtener resultados' })
+    })
+}
+
+
 export default controllers
