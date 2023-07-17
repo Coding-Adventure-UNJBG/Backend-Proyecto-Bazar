@@ -111,7 +111,6 @@ CREATE TABLE `venta` (
     `total_dinero` DECIMAL(9,4) UNSIGNED NOT NULL,
     `comentario` TINYTEXT NULL DEFAULT '',
     `fecha` DATETIME NOT NULL DEFAULT current_timestamp(),
-    `fecha_mod` DATETIME NOT NULL DEFAULT current_timestamp(),
     PRIMARY KEY (`id_venta`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -207,4 +206,17 @@ VALUES
 ('20558614120', 'CMS DEL SUR S.A.C.', 'CMS DEL SUR S.A.C.', 'MZA. E LOTE. 11B Z.I. PARQUE INDUSTRIAL (A MEDIA CUADRA DE FERRETERIA HELEO) TACNA - TACNA - TACNA'),
 ('20100220700', 'DIMEXA', 'DIMEXA S.A.', 'MZA. B LOTE. 12 URB. SANTA MARIA AREQUIPA - AREQUIPA - PAUCARPATA'),
 ('', 'POLVOS ROSADOS', '', 'AV. GUSTAVO PINTO S/N ALTO DE LA ALIANZA, GUSTAVO PINTO, TACNA');
+UNLOCK TABLES;
+
+LOCK TABLES `venta` WRITE;
+INSERT INTO venta(id_venta, serie, correlativo, tipo_pago, total_dinero, comentario, fecha)
+VALUES 
+(1, '001', '000246', 'EFECTIVO', '2.50', '', '2023-07-10 11:30:30');
+
+UNLOCK TABLES;
+
+LOCK TABLES `detalle_venta` WRITE;
+INSERT INTO detalle_venta(id_venta, id_producto, cantidad, costo_unitario)
+VALUES 
+(1, 1, 1, 2.50);
 UNLOCK TABLES;
