@@ -13,7 +13,7 @@ model.obtenerId = () => {
 model.insertarCompra = (data) => {
   const { id_proveedor, id_producto, descripcion, cantidad, precio_compra, importe_total, costo_operacion } = data
   const query = `INSERT INTO compra(id_proveedor, id_producto, descripcion, cantidad, precio_compra, importe_total, costo_operacion)
-                VALUES ('${id_proveedor}', '${id_producto}', '${descripcion}', '${cantidad}', '${precio_compra}', '${importe_total}', '${costo_operacion}')`
+                VALUES ('${id_proveedor}', '${id_producto}', '${descripcion}', '${cantidad}', '${precio_compra}', '${cantidad}'*'${precio_compra}', '${costo_operacion}')`
   return sequelize.query(query, { raw: true })
     .then(([result, metadata]) => {
       // console.log(metadata)

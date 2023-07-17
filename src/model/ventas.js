@@ -3,7 +3,7 @@ import sequelize from '../config/db.js'
 
 model.mostrarTodo = () => {
   // const query = `SELECT * FROM venta ORDER BY id_venta DESC`
-  const query = `SELECT v.id_venta, v.serie, v.correlativo, v.tipo_pago, ROUND(v.total_dinero, 2) AS total_dinero,  DATE_FORMAT(v.fecha, "%d-%m-%Y") AS fecha, COUNT(dv.id_venta) as items FROM venta AS v
+  const query = `SELECT v.id_venta, v.serie, v.correlativo, v.tipo_pago, v.comentario, ROUND(v.total_dinero, 2) AS total_dinero,  DATE_FORMAT(v.fecha, "%d-%m-%Y") AS fecha, COUNT(dv.id_venta) as items FROM venta AS v
                 INNER JOIN detalle_venta AS dv
                 ON v.id_venta = dv.id_venta
                 GROUP BY v.id_venta

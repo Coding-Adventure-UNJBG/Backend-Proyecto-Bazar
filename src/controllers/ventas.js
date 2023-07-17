@@ -36,8 +36,8 @@ controllers.obtenerCorrelativo = async (req, res) => {
 controllers.insertar = async (req, res) => {
   let insertDetalle = false
   const datosVenta = req.body
-  console.log(datosVenta)
-  console.log(datosVenta.detalleVenta)
+  // console.log(datosVenta)
+  // console.log(datosVenta.detalleVenta)
   await model.insertarVenta(datosVenta)
     .then((response) => {
       console.log("Cantidad de filas insertadas: " + response)
@@ -62,7 +62,7 @@ controllers.insertar = async (req, res) => {
         }
         else {
           id_venta = data[0].id
-          console.log('Detalle para el id => ', id_venta)
+          // console.log('Detalle para el id => ', id_venta)
           // res.json(data)
         }
       })
@@ -71,15 +71,14 @@ controllers.insertar = async (req, res) => {
       })
 
     //Insertamos detalle de venta
-    // for (const venta in datosVenta.detalleVenta){
-    //   console.log(venta)
-    // }
-    for (const detalle of datosVenta.detalleVenta){
-      let updateStock = false
-      console.log(detalle)
+    for (const detalle of datosVenta.detalleVenta) {
+      // console.log(detalle)
       await model.insertarDetalle(id_venta, detalle)
       await model.actualizarStock(detalle)
     }
+
+    res.status(201).send({ message: 'Venta registrada correctamente' })
+
   }
 }
 
