@@ -66,4 +66,24 @@ model.borrarEntrada = (data) => {
     .catch((errror) => { throw errror })
 }
 
+model.reporte = (data) => {
+  const { fechaInicio, fechaFin } = data
+  const query = `SELECT pd.nombre AS producto, pd.marca, pd.unidad, pv.nombre AS proveedor, c.cantidad, 
+                ROUND(c.precio_compra, 2) AS "precio compra", ROUND(c.costo_operacion, 2) AS "flete + comision banco",
+                ROUND(c.importe_total, 2) AS "total factura", ROUND( ((c.precio_compra + c.costo_operacion) * 0.30), 2) AS "utilidad 30%", 
+                ROUND( (c.precio_compra + c.costo_operacion + ((c.precio_compra + c.costo_operacion) * 0.30)), 2) AS "precio venta", 
+                DATE_FORMAT(c.fecha, '%Y-%m-%d') AS fecha FROM compra c
+                INNER JOIN producto pd
+                ON c.id_producto = pd.id_producto
+                INNER JOIN proveedor pv
+                ON c.id_proveedor = pv.id_proveedor
+                WHERE DATE_FORMAT(c.fecha, '%Y-%m-%d') BETWEEN '${fechaInicio}' AND '${fechaFin}'`
+  return sequelize.query(query, { raw: true })
+    .then(([result, metadata]) => {
+      // console.log(metadata)
+      return result
+    })
+    .catch((errror) => { throw errror })
+}
+
 export default model

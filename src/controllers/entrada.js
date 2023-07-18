@@ -83,6 +83,19 @@ controllers.borrarEntrada = async (req, res) => {
     })
 }
 
+controllers.reporte = async (req, res) => {
+  model.reporte(req.query)
+    .then((data) => {
+      res.json(data)
+      // if (data.length == 0) {
+      //   res.status(404).send({ error: 'No se encontraron resultados' })
+      // } else {
+      // }
+    })
+    .catch((err) => {
+      res.status(500).send({ error: 'Error interno del servidor al obtener resultados' })
+    })
+}
 
 
 export default controllers
