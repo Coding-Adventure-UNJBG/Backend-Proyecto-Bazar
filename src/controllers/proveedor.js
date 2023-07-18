@@ -112,4 +112,23 @@ controllers.actualizar = async (req, res) => {
         })
 }
 
+controllers.actualizarEstado = async (req, res) => {
+  let id = req.params.id
+  let data = req.body.estado
+  model.updateEstado(id, data)
+    .then((result) => {
+      //console.log(result);
+      let info = result.info.split(" "); // convertir respuesta a array
+      console.log(info);
+      if (result.rowsAffected > 0 || info[2] >= 1) {
+        res.json({ message: 'Estado actualizado correctamente' });
+      } else {
+        res.status(404).send({ error: 'No se encontró ningún registro para actualizar' });
+      }
+    })
+    .catch((err) => {
+      res.status(500).send({ error: 'Error al actualizar el estado' });
+    })
+}
+
 export default controllers

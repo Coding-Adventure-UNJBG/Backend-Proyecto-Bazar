@@ -8,6 +8,7 @@ import producto from './producto.js';
 import usuario from './usuario.js';
 import proveedor from './proveedor.js';
 import entrada from './entrada.js'
+import venta from './ventas.js'
 
 const app = express();
 
@@ -31,6 +32,7 @@ app.use("/api/v1/producto", producto);
 app.use("/api/v1/usuario", usuario);
 app.use("/api/v1/proveedor", proveedor);
 app.use("/api/v1/entrada", entrada);
+app.use("/api/v1/venta", venta)
 
 // respuesta por defecto para todas las rutas no especificadas
 app.use("*", (req, res) => {

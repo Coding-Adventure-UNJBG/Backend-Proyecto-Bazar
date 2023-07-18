@@ -8,6 +8,7 @@ router.get("/comprobar", controllers.comprobarRUC)
 
 router.route("/:id")
 .get( controllers.buscarID )
+.patch( controllers.actualizarEstado )
 
 router.route("/")
 .get( controllers.mostrar )
