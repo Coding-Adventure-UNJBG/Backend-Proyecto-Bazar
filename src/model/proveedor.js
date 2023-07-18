@@ -80,4 +80,15 @@ model.update = (data) => {
     .catch((errror) => { throw errror})
 }
 
+model.updateEstado = (id, data) => {
+  let estado = data == 'HABILITADO' ? 'DESHABILITADO' : 'HABILITADO'
+  const query = `UPDATE proveedor SET estado = '${estado}' WHERE id_proveedor = '${id}'`
+  return sequelize.query(query, { raw: true })
+    .then(([result, metadata]) => {
+      // console.log(metadata)
+      return result
+    })
+    .catch((errror) => { throw errror })
+}
+
 export default model

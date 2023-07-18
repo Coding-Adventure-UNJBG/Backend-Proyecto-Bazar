@@ -52,7 +52,7 @@ CREATE TABLE `proveedor` (
     `ruc` VARCHAR(32) NULL UNIQUE,
     `razon_social` TINYTEXT NULL,
     `direccion` TINYTEXT NULL,
-    `estado` enum('HABILITADO', 'DESHABILITADO') NOT NULL DEFAULT 'DESHABILITADO',
+    `estado` enum('HABILITADO', 'DESHABILITADO') NOT NULL DEFAULT 'HABILITADO',
     `fecha_registro` DATETIME NOT NULL DEFAULT current_timestamp(),
     `comentario` TINYTEXT NULL DEFAULT '',
     PRIMARY KEY (`id_proveedor`)
