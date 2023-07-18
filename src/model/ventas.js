@@ -88,4 +88,27 @@ model.buscarID = (id) => {
     })
     .catch((errror) => { throw errror })
 }
+
+model.reporte = (data) => {
+  const { fechaInicio, fechaFin } = data
+  const query = `SELECT v.serie, v.correlativo, 
+                GROUP_CONCAT(p.nombre, ' - ', p.marca, ' - ', p.unidad SEPARATOR ', ') AS "productos", 
+                GROUP_CONCAT(dv.cantidad SEPARATOR ', ') AS "cantidad por producto", 
+                GROUP_CONCAT( ROUND(dv.costo_unitario, 2) SEPARATOR ', ') AS "costo unitario por producto",
+                ROUND(v.total_dinero, 2) AS "importe total", DATE_FORMAT(v.fecha, '%Y-%m-%d') AS fecha
+                FROM venta v
+                INNER JOIN detalle_venta dv 
+                ON v.id_venta = dv.id_venta
+                INNER JOIN producto p 
+                ON dv.id_producto = p.id_producto
+                GROUP BY v.id_venta
+                HAVING fecha BETWEEN '${fechaInicio}' AND '${fechaFin}'`
+  return sequelize.query(query, { raw: true })
+    .then(([result, metadata]) => {
+      // console.log(metadata)
+      return result
+    })
+    .catch((errror) => { throw errror })
+}
+
 export default model

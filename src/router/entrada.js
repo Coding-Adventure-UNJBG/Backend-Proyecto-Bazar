@@ -3,8 +3,9 @@ const router = new Router()
 
 import controllers from "../controllers/entrada.js";
 
+router.get("/reporte", controllers.reporte )
+
 router.route("/")
-.get( controllers.reporte )
 .post( controllers.insertar )
 
 export default router
