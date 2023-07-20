@@ -189,34 +189,76 @@ UNLOCK TABLES;
 
 /* DATOS PARA LA TABLA PRODUCTO */
 LOCK TABLES `producto` WRITE;
-INSERT INTO producto(nombre, marca, unidad)
+INSERT INTO `producto` (`id_producto`, `nombre`, `marca`, `unidad`, `estado`, `stock`, `foto`, `fecha`, `comentario`) 
 VALUES
-('PAÑOS ABSORVENTES', 'SAPOLIO', '20 UNIDA' ),
-('PASTA  DENTAL', 'DENTO', '75 ML'),
-('JABON ANTIBACTERIAL', 'AVAL', '400 ML'),
-('JABON ANTIBACTERIAL', 'AVAL', 'LITRO'),
-('JABON  BALLERINA RESPUESTO', 'BALLERINA', '900 ML');
+(1, 'PAÑOS ABSORVENTES', 'SAPOLIO', '20 UNIDA', 'DISPONIBLE', 5, '', '2023-07-10 21:23:44', ''),
+(2, 'PASTA  DENTAL', 'DENTO', '75 ML', 'DISPONIBLE', 12, '', '2023-07-10 21:23:44', ''),
+(3, 'JABON ANTIBACTERIAL', 'AVAL', '400 ML', 'DISPONIBLE', 8, '', '2023-07-10 21:23:44', ''),
+(4, 'JABON ANTIBACTERIAL', 'AVAL', 'LITRO', 'AGOTADO', 0, '', '2023-07-10 21:23:44', ''),
+(5, 'JABON  BALLERINA RESPUESTO', 'BALLERINA', '900 ML', 'AGOTADO', 0, '', '2023-07-10 21:23:44', ''),
+(6, 'DESINFECTANTE DAC5 CONCENTRADO', 'DARYZA', 'GALON 5 LITROS', 'AGOTADO', 0, '', '2023-07-10 02:45:11', ''),
+(7, 'DESINFECTANTE DAC5 CONCENTRADO', 'DARYZA', 'LITRO', 'DISPONIBLE', 6, '', '2023-07-10 02:45:35', '');
 UNLOCK TABLES;
 
 /* DATOS PARA LA TABLA PROVEEDORES */
 LOCK TABLES `proveedor` WRITE;
-INSERT INTO proveedor(ruc, nombre, razon_social, direccion)
+INSERT INTO `proveedor` (`id_proveedor`, `nombre`, `ruc`, `razon_social`, `direccion`, `estado`, `fecha_registro`, `comentario`) 
 VALUES
-('20519893259', 'IMPORT EXPORT GINSA EIRL', 'IMPORT EXPORT GINSA EMPRESA INDIVIDUAL DE RESPONSABILIDAD LIMITADA', 'MZA. D LOTE. 11 ASOC.VIV.LA FRONTERA (ESPALDAS DEL MERCADILLO BOLOGNESI) TACNA - TACNA - TACNA'),
-('20558614120', 'CMS DEL SUR S.A.C.', 'CMS DEL SUR S.A.C.', 'MZA. E LOTE. 11B Z.I. PARQUE INDUSTRIAL (A MEDIA CUADRA DE FERRETERIA HELEO) TACNA - TACNA - TACNA'),
-('20100220700', 'DIMEXA', 'DIMEXA S.A.', 'MZA. B LOTE. 12 URB. SANTA MARIA AREQUIPA - AREQUIPA - PAUCARPATA'),
-('', 'POLVOS ROSADOS', '', 'AV. GUSTAVO PINTO S/N ALTO DE LA ALIANZA, GUSTAVO PINTO, TACNA');
+(1, 'IMPORT EXPORT GINSA EIRL', '20519893259', 'IMPORT EXPORT GINSA EMPRESA INDIVIDUAL DE RESPONSABILIDAD LIMITADA', 'MZA. D LOTE. 11 ASOC.VIV.LA FRONTERA (ESPALDAS DEL MERCADILLO BOLOGNESI) TACNA - TACNA - TACNA', 'HABILITADO', '2023-07-10 21:23:44', ''),
+(2, 'CMS DEL SUR S.A.C.', '20558614120', 'CMS DEL SUR S.A.C.', 'MZA. E LOTE. 11B Z.I. PARQUE INDUSTRIAL (A MEDIA CUADRA DE FERRETERIA HELEO) TACNA - TACNA - TACNA', 'HABILITADO', '2023-07-10 21:23:44', ''),
+(3, 'DIMEXA', '20100220700', 'DIMEXA S.A.', 'MZA. B LOTE. 12 URB. SANTA MARIA AREQUIPA - AREQUIPA - PAUCARPATA', 'HABILITADO', '2023-07-10 21:23:44', ''),
+(4, 'POLVOS ROSADOS', '', '', 'AV. GUSTAVO PINTO S/N ALTO DE LA ALIANZA, GUSTAVO PINTO, TACNA', 'HABILITADO', '2023-07-10 21:23:44', ''),
+(5, 'DARYZA', '20144109458', 'DARYZA S.A.C.', 'Nro. . Granja 1 (Altura Km 30 Panamericana Sur)', 'HABILITADO', '2023-07-10 02:28:26', ''),
+(6, 'SANIMAX SOLUCIONES S.A.C.', '20603863110', 'SANIMAX SOLUCIONES S.A.C.', 'Cal. Teniente Enrique Delucchi Nro. 222 Dpto. Ss04, Lima, Perú', 'HABILITADO', '2023-07-10 02:30:02', '');
 UNLOCK TABLES;
 
+/* DATOS PARA LA TABLA COMPRA */
+LOCK TABLES `compra` WRITE;
+INSERT INTO `compra` (`id_compra`, `id_proveedor`, `id_producto`, `descripcion`, `cantidad`, `precio_compra`, `importe_total`, `costo_operacion`, `fecha`) VALUES
+(1, 1, 1, '', 10, 10.7500, 107.5000, 0.0000, '2023-07-10 10:51:30'),
+(2, 2, 2, '', 7, 2.0000, 14.0000, 0.0000, '2023-07-11 10:53:47'),
+(3, 1, 3, '', 11, 4.2000, 46.2000, 0.0000, '2023-07-11 14:54:45'),
+(4, 5, 7, '', 7, 10.1700, 71.1900, 1.0000, '2023-07-15 16:58:28'),
+(5, 2, 2, '', 10, 2.0000, 20.0000, 0.0000, '2023-07-16 12:10:53'),
+(6, 1, 3, '', 5, 4.2000, 21.0000, 0.0000, '2023-07-18 13:12:26'),
+(7, 5, 7, '', 6, 10.1700, 61.0200, 1.0000, '2023-07-19 11:14:28');
+UNLOCK TABLES;
+
+/* DATOS PARA LA TABLA PRECIO PRODUCTO */
+LOCK TABLES `precio_producto` WRITE;
+INSERT INTO `precio_producto` (`id_producto`, `fechaInicio`, `fechaFinal`, `precio_venta`) VALUES
+(1, '2023-07-10 02:51:30', '2023-07-10 02:51:30', 13.9750),
+(2, '2023-07-11 02:53:47', '2023-07-11 02:53:47', 2.6000),
+(3, '2023-07-11 02:54:45', '2023-07-11 02:54:45', 5.4600),
+(7, '2023-07-15 02:58:28', '2023-07-15 02:58:28', 14.5210);
+UNLOCK TABLES;
+
+/* DATOS PARA LA TABLA VENTA */
 LOCK TABLES `venta` WRITE;
-INSERT INTO venta(id_venta, serie, correlativo, tipo_pago, total_dinero, comentario, fecha)
-VALUES 
-(1, '001', '000246', 'EFECTIVO', '2.50', '', '2023-07-10 11:30:30');
-
+INSERT INTO `venta` (`id_venta`, `serie`, `correlativo`, `tipo_pago`, `total_dinero`, `comentario`, `fecha`) VALUES
+(1, '001', '000246', 'EFECTIVO', 2.5000, '', '2023-07-11 11:30:30'),
+(2, '001', '000247', 'EFECTIVO', 8.0600, '', '2023-07-13 14:01:40'),
+(3, '001', '000248', 'EFECTIVO', 27.9600, '', '2023-07-13 15:02:19'),
+(4, '001', '000249', 'EFECTIVO', 114.4200, '', '2023-07-14 11:04:56'),
+(5, '001', '000250', 'EFECTIVO', 36.5600, '', '2023-07-17 12:06:01'),
+(6, '001', '000251', 'EFECTIVO', 33.4200, '', '2023-07-17 15:06:53'),
+(7, '001', '000252', 'YAPE', 7.8000, '', '2023-07-18 14:08:57');
 UNLOCK TABLES;
 
+/* DATOS PARA LA TABLA DETALLE VENTA */
 LOCK TABLES `detalle_venta` WRITE;
-INSERT INTO detalle_venta(id_venta, id_producto, cantidad, costo_unitario)
-VALUES 
-(1, 1, 1, 2.50);
+INSERT INTO `detalle_venta` (`id_venta`, `id_producto`, `cantidad`, `costo_unitario`) VALUES
+(1, 1, 1, 2.5000),
+(2, 2, 1, 2.6000),
+(2, 3, 1, 5.4600),
+(3, 1, 2, 13.9800),
+(4, 3, 5, 5.4600),
+(4, 7, 6, 14.5200),
+(5, 2, 1, 2.6000),
+(5, 1, 1, 13.9800),
+(5, 3, 1, 5.4600),
+(5, 7, 1, 14.5200),
+(6, 1, 2, 13.9800),
+(6, 3, 1, 5.4600),
+(7, 2, 3, 2.6000);
 UNLOCK TABLES;
